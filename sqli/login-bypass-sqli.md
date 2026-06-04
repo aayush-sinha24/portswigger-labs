@@ -52,11 +52,11 @@ Because the application trusted unsanitized user input, the backend query logic 
 
 A successful SQL injection vulnerability can lead to:
 
-Authentication bypass
-Unauthorized account access
-Sensitive database exposure
-Data modification or deletion
-Full database compromise in severe cases
+- Authentication bypass
+- Unauthorized account access
+- Sensitive database exposure
+- Data modification or deletion
+- Full database compromise in severe cases
 ## Mitigation
 
 Recommended protections include:

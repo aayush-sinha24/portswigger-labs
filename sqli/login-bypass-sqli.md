@@ -61,11 +61,11 @@ A successful SQL injection vulnerability can lead to:
 
 Recommended protections include:
 
-Prepared statements / parameterized queries
-Input validation
-Least-privilege database permissions
-Proper error handling
-Web application firewalls (WAF)
+- Prepared statements / parameterized queries
+- Input validation
+- Least-privilege database permissions
+- Proper error handling
+- Web application firewalls (WAF)
 ## What I Learned
 
 This lab helped me better understand how insecure input handling can directly affect backend authentication logic and why parameterized queries are important in modern web applications.

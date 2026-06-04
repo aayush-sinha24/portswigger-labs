@@ -24,27 +24,31 @@ This allowed authentication checks to be bypassed without knowing valid credenti
 
 ---
 
- Payload Used
+## Payload Used
 
 ```sql
 ' OR 1=1--
-Attack Process
+```
+
+## Attack Process
 Opened the login page.
 Entered the payload into the username field.
 Submitted the request.
 The injected condition evaluated as TRUE.
 Authentication logic was bypassed and access was granted.
-Why The Payload Worked
+## Why The Payload Worked
 
 The injected condition:
 
+```sql
 1=1
+```
 
 always evaluates to TRUE.
 
 Because the application trusted unsanitized user input, the backend query logic was altered and the original authentication check became ineffective.
 
-Security Impact
+## Security Impact
 
 A successful SQL injection vulnerability can lead to:
 
@@ -53,7 +57,7 @@ Unauthorized account access
 Sensitive database exposure
 Data modification or deletion
 Full database compromise in severe cases
-Mitigation
+## Mitigation
 
 Recommended protections include:
 
@@ -62,6 +66,6 @@ Input validation
 Least-privilege database permissions
 Proper error handling
 Web application firewalls (WAF)
-What I Learned
+## What I Learned
 
 This lab helped me better understand how insecure input handling can directly affect backend authentication logic and why parameterized queries are important in modern web applications.

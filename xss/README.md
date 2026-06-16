@@ -1,17 +1,43 @@
 # Cross-Site Scripting (XSS) Labs
 
-This folder contains PortSwigger Web Security Academy XSS lab writeups, payloads, observations, and mitigation notes.
+This folder contains practical Cross-Site Scripting (XSS) lab writeups, payload observations, browser behavior analysis, and mitigation concepts practiced through hands-on web security exercises.
 
-## Topics Covered
+---
+
+# Topics Covered
 
 - Reflected XSS
 - Stored XSS
-- DOM-based XSS
-- XSS filter bypass techniques
-- Cookie theft scenarios
-- Credential capture scenarios
-- CSP bypass concepts
+- DOM-Based XSS
+- Attribute Injection
+- Event Handler Injection
+- XSS Filter Bypass
+- Template Literal Injection
+- Browser-side JavaScript execution
 
-## Goal
+---
 
-To understand how improper handling of untrusted user input can lead to client-side code execution and account compromise.
+# Skills Developed
+
+- Payload crafting
+- Reflection point analysis
+- Browser parsing behavior
+- Context-aware injection
+- Client-side debugging
+- Filter bypass techniques
+- JavaScript sink identification
+
+---
+
+# Tools Used
+
+- Browser Developer Tools
+- PortSwigger Web Security Academy
+- XSS Game
+- Manual payload testing
+
+---
+
+# Goal
+
+To understand how insecure handling of user-controlled input can lead to client-side code execution, session compromise, credential theft, and browser-based attacks.

@@ -25,6 +25,45 @@ This directory contains my write-ups for the **PortSwigger Web Security Academy*
 Server-Side Request Forgery (SSRF) is a web vulnerability that allows an attacker to trick a vulnerable server into making unintended requests on the attacker's behalf.
 
 Unlike a normal client-side request, the vulnerable application itself sends the request. This can allow attackers to access internal services, cloud metadata endpoints, administrative interfaces, or other resources that are not directly accessible from the Internet.
+## SSRF Attack Flow
+
+```text
+                    Attacker
+                        │
+                        │ Provides a malicious URL
+                        ▼
+          Vulnerable Web Application
+                        │
+                        │ Server fetches the supplied URL
+                        ▼
+      ┌──────────────────────────────────┐
+      │ Internal Resources               │
+      │                                  │
+      │ • localhost                      │
+      │ • Internal APIs                  │
+      │ • Admin Panel                    │
+      │ • Database Services              │
+      │ • Cloud Metadata Endpoint        │
+      └──────────────────────────────────┘
+                        │
+                        ▼
+              Sensitive Information
+                        │
+                        ▼
+              Returned to Attacker
+```
+
+---
+
+### Attack Flow
+
+1. The attacker supplies a URL to the vulnerable application.
+2. The application trusts the URL and sends the request.
+3. The request originates from the server itself.
+4. Internal resources trust the request because it comes from the server.
+5. Sensitive data is returned to the attacker.
+
+---
 
 ---
 

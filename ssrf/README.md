@@ -164,6 +164,32 @@ Attackers commonly attempt to access:
 - Kubernetes APIs
 
 ---
+---
+
+## Next Learning Objectives
+
+After completing these labs, I plan to continue exploring more advanced SSRF topics, including:
+
+- Blind SSRF using out-of-band interaction (Burp Collaborator)
+- Blind SSRF with Shellshock exploitation
+- Cloud SSRF exploitation (AWS, Azure, GCP)
+- SSRF against internal GraphQL APIs
+- SSRF in modern microservice architectures
+
+---
+
+## Repository Structure
+
+```
+ssrf/
+│
+├── README.md
+├── 01-basic-ssrf-against-local-server.md
+├── 02-basic-ssrf-against-another-back-end-system.md
+├── 03-ssrf-with-blacklist-based-input-filter.md
+├── 04-ssrf-with-filter-bypass-via-open-redirection.md
+└── 05-ssrf-with-whitelist-based-input-filter.md
+```
 
 ## References
 

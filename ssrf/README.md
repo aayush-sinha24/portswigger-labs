@@ -82,11 +82,15 @@ Unlike a normal client-side request, the vulnerable application itself sends the
 
 ## Completed Labs
 
-- [x] Basic SSRF Against the Local Server
-- [x] Basic SSRF Against Another Back-End System
-- [x] SSRF with Blacklist-Based Input Filter
-- [x] SSRF with Filter Bypass via Open Redirection
-- [x] SSRF with Whitelist-Based Input Filter
+- [x] [Basic SSRF Against the Local Server](01-basic-ssrf-against-local-server.md)
+
+- [x] [Basic SSRF Against Another Back-End System](02-basic-ssrf-against-another-back-end-system.md)
+
+- [x] [SSRF with Blacklist-Based Input Filter](03-ssrf-with-blacklist-based-input-filter.md)
+
+- [x] [SSRF with Filter Bypass via Open Redirection](04-ssrf-with-filter-bypass-via-open-redirection.md)
+
+- [x] [SSRF with Whitelist-Based Input Filter](05-ssrf-with-whitelist-based-input-filter.md)
 
 ---
 

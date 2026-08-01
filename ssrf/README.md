@@ -114,6 +114,25 @@ Throughout these labs I learned how attackers abuse applications that fetch user
 - Understand how SSRF impacts cloud environments
 
 I also gained practical experience identifying SSRF entry points and understanding how real-world applications attempt to defend against SSRF attacks.
+## Defensive Mitigations
+
+The following security controls help prevent SSRF vulnerabilities in real-world applications:
+
+- Validate and sanitize all user-supplied URLs.
+- Use an allowlist of trusted domains instead of a blocklist.
+- Disable automatic redirect following when unnecessary.
+- Block requests to localhost (`127.0.0.1`, `::1`) and private IP ranges.
+- Restrict access to cloud metadata endpoints (for example `169.254.169.254`).
+- Implement network segmentation to isolate internal services.
+- Apply firewall rules to restrict outbound server connections.
+- Enforce authentication and authorization for internal administrative services.
+- Monitor and log outbound requests to detect suspicious activity.
+
+---
+
+### Key Lesson
+
+SSRF is not just about reading internal pages. In real environments it can expose cloud credentials, internal APIs, management interfaces, and sensitive services that should never be reachable by external users.
 
 ---
 

@@ -141,7 +141,7 @@ Understanding SSRF is important because it has contributed to several high-profi
 
 An attacker exploited an SSRF vulnerability in a cloud-hosted application to access the AWS Instance Metadata Service (IMDS). This exposed temporary AWS credentials that were later used to access sensitive customer data stored in Amazon S3 buckets.
 
-**Lessons Learned**
+### Lessons Learned
 
 - Restrict access to cloud metadata endpoints.
 - Apply least-privilege IAM permissions.

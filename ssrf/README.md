@@ -133,6 +133,35 @@ The following security controls help prevent SSRF vulnerabilities in real-world 
 ### Key Lesson
 
 SSRF is not just about reading internal pages. In real environments it can expose cloud credentials, internal APIs, management interfaces, and sensitive services that should never be reachable by external users.
+## Real-World SSRF Incidents
+
+Understanding SSRF is important because it has contributed to several high-profile security incidents.
+
+### Capital One Data Breach (2019)
+
+An attacker exploited an SSRF vulnerability in a cloud-hosted application to access the AWS Instance Metadata Service (IMDS). This exposed temporary AWS credentials that were later used to access sensitive customer data stored in Amazon S3 buckets.
+
+**Lessons Learned**
+
+- Restrict access to cloud metadata endpoints.
+- Apply least-privilege IAM permissions.
+- Validate all user-controlled URLs.
+- Monitor outbound server requests.
+
+---
+
+### Common SSRF Targets
+
+Attackers commonly attempt to access:
+
+- `127.0.0.1`
+- `localhost`
+- Internal APIs
+- Admin panels
+- Database management interfaces
+- Cloud metadata services
+- Docker APIs
+- Kubernetes APIs
 
 ---
 

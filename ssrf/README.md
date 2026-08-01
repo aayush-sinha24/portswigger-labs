@@ -8,6 +8,17 @@
 ![Category](https://img.shields.io/badge/Vulnerability-SSRF-red)
 
 This directory contains my write-ups for the **PortSwigger Web Security Academy** SSRF labs.
+## Table of Contents
+
+- [About SSRF](#about-ssrf)
+- [SSRF Attack Flow](#ssrf-attack-flow)
+- [Skills Practiced](#skills-practiced)
+- [Completed Labs](#completed-labs)
+- [Skipped Labs](#skipped-labs)
+- [Key Takeaways](#key-takeaways)
+- [References](#references)
+
+---
 
 ## About SSRF
 

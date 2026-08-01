@@ -1,4 +1,11 @@
 # Server-Side Request Forgery (SSRF)
+![Platform](https://img.shields.io/badge/Platform-PortSwigger_Web_Security_Academy-orange)
+
+![Labs](https://img.shields.io/badge/Labs-5_Completed-success)
+
+![Status](https://img.shields.io/badge/Writeups-Complete-blue)
+
+![Category](https://img.shields.io/badge/Vulnerability-SSRF-red)
 
 This directory contains my write-ups for the **PortSwigger Web Security Academy** SSRF labs.
 

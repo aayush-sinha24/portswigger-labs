@@ -32,6 +32,14 @@
 - Secure Coding Concepts
 
 ---
+## 🛠️ Tools & Technologies
+
+- Burp Suite Community Edition
+- Kali Linux
+- Firefox
+- HTTP/HTTPS
+- Git & GitHub
+- Markdown
 
 ## 📂 Repository Structure
 
@@ -49,16 +57,24 @@ portswigger-labs/
 ```
 
 ---
+## 📈 Repository Statistics
+
+| Metric | Value |
+|--------|------:|
+| Categories | 5 |
+| Labs Completed | 5+ |
+| Detailed Write-ups | 5 |
+| Platforms | PortSwigger Web Security Academy |
 
 ## 📚 Categories
 
 | Module | Description |
 |---------|-------------|
-| Access Control | Privilege escalation and authorization flaws |
-| Authentication | Login, MFA, password reset, session attacks |
-| SQL Injection | Error-based, Union, Blind, Time-based SQLi |
-| XSS | Reflected, Stored, DOM-based, Context-specific |
-| SSRF | Localhost access, filter bypass, whitelist bypass |
+| [SQL Injection](./sqli) | Error-based, Union, Blind, Time-based SQLi |
+| [Cross-Site Scripting](./xss) | Reflected, Stored, DOM-based, Context-specific |
+| [Server-Side Request Forgery](./ssrf) | Localhost access, filter bypass, whitelist bypass |
+| [Authentication](./authentication) | Login, MFA, password reset, session attacks |
+| [Access Control](./access-control) | Privilege escalation and authorization flaws |
 
 ---
 
@@ -76,7 +92,7 @@ This repository helps me:
 
 ## ⭐ Featured Module
 
-### Server-Side Request Forgery (SSRF)
+### 📂 [Server-Side Request Forgery (SSRF)](./ssrf)
 
 The SSRF module includes:
 

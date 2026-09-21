@@ -1,71 +1,106 @@
- SQL Injection Vulnerability Allowing Login Bypass
+# SQL Injection Vulnerability Allowing Login Bypass
 
- Lab Overview
+## Objective
 
-This lab demonstrated how improper handling of user input in SQL queries can allow authentication bypass.
+Exploit a SQL injection vulnerability in the application's authentication mechanism to bypass the login process and gain access without valid credentials.
 
-The application login form was vulnerable to SQL injection because user-controlled input was directly included in the backend SQL query without proper sanitization.
+## Lab Overview
 
----
+This lab demonstrates how SQL injection can directly affect authentication logic.
 
- Objective
+The application constructs a SQL query using user-controlled login input. Because the input is not safely parameterized, SQL syntax can alter the intended authentication query.
 
-Bypass the login functionality and access the administrator account.
+## Vulnerability
 
----
+The application incorporates untrusted username input into a SQL query without using parameterized queries or prepared statements.
 
- Vulnerability Explanation
+This allows an attacker to modify the logic of the authentication query.
 
-The application failed to safely process input entered into the login form.
+Conceptually:
 
-Because the SQL query directly included user input, it was possible to modify the query logic using special SQL characters and conditions.
-
-This allowed authentication checks to be bypassed without knowing valid credentials.
-
----
-
-## Payload Used
-
-```sql
-' OR 1=1--
+```text
+User-supplied input
+        ↓
+SQL query construction
+        ↓
+Modified query logic
+        ↓
+Authentication check altered
+        ↓
+Unauthorized access
 ```
 
-## Attack Process
-Opened the login page.
-Entered the payload into the username field.
-Submitted the request.
-The injected condition evaluated as TRUE.
-Authentication logic was bypassed and access was granted.
-## Why The Payload Worked
+## Exploitation Steps
 
-The injected condition:
+### 1. Identify the login functionality
 
-```sql
-1=1
-```
+Open the application's login page and inspect the username and password parameters.
 
-always evaluates to TRUE.
+### 2. Test for SQL injection
 
-Because the application trusted unsanitized user input, the backend query logic was altered and the original authentication check became ineffective.
+Submit controlled SQL syntax through the username field and observe whether the application's authentication behavior changes.
 
-## Security Impact
+### 3. Analyze the query behavior
 
-A successful SQL injection vulnerability can lead to:
+Determine whether the supplied input can alter the logical conditions used by the backend authentication query.
 
-- Authentication bypass
-- Unauthorized account access
-- Sensitive database exposure
-- Data modification or deletion
-- Full database compromise in severe cases
+A condition that always evaluates to true can interfere with the application's intended credential check.
+
+### 4. Bypass authentication
+
+Use the identified SQL injection behavior to modify the authentication query and bypass the normal password verification.
+
+The lab can be completed when unauthorized access to the target account is obtained.
+
+## Root Cause
+
+The application directly incorporates user-controlled login data into a SQL query without parameterized database access.
+
+This allows the attacker to influence the SQL statement executed by the database.
+
+## Impact
+
+Successful exploitation may allow an attacker to:
+
+- Bypass authentication
+- Access accounts without valid credentials
+- Access administrative functionality
+- Retrieve sensitive application information
+- Potentially compromise the database
+
 ## Mitigation
 
-Recommended protections include:
+- Use parameterized queries or prepared statements.
+- Never concatenate user-controlled input into SQL statements.
+- Treat all authentication parameters as untrusted input.
+- Use least-privilege database accounts.
+- Implement secure error handling.
+- Log and monitor suspicious authentication requests.
 
-- Prepared statements / parameterized queries
-- Input validation
-- Least-privilege database permissions
-- Proper error handling
-- Web application firewalls (WAF)
-## What I Learned
+## Tools Used
 
-This lab helped me better understand how insecure input handling can directly affect backend authentication logic and why parameterized queries are important in modern web applications.
+- Burp Suite Community Edition
+- Burp Repeater
+- Web Security Academy
+
+## Skills Practiced
+
+- SQL injection
+- Authentication bypass
+- SQL query manipulation
+- Boolean SQL logic
+- Login-flow testing
+- Burp Repeater
+- HTTP request analysis
+
+## Key Takeaways
+
+- SQL injection can directly compromise authentication mechanisms.
+- Login forms are important SQL injection testing targets.
+- Manipulating SQL query logic can bypass application-level authentication checks.
+- Authentication controls should never rely on dynamically concatenated SQL.
+- Parameterized queries are the primary defense against SQL injection.
+
+---
+
+**Status:** ✅ Solved

@@ -13,7 +13,7 @@
 | Access Control | ✅ In Progress |
 | Authentication | ✅ In Progress |
 | SQL Injection | ✅ Completed |
-| Cross-Site Scripting (XSS) | ✅ Completed |
+| Cross-Site Scripting (XSS) | 🔄 In Progress |
 | Server-Side Request Forgery (SSRF) | ✅ Completed |
 
 ---

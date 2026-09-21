@@ -1,79 +1,115 @@
 # SQL Injection Using UNION Attacks
 
-## Lab Overview
-
-This lab demonstrated how UNION-based SQL injection can be used to retrieve additional data from the backend database.
-
-The application was vulnerable because user-controlled input was directly included inside a SQL query without proper sanitization.
-
----
-
 ## Objective
 
-Exploit the SQL injection vulnerability to retrieve data from the database using UNION SELECT statements.
+Exploit a SQL injection vulnerability using a `UNION` query to retrieve additional information from the backend database.
 
----
+## Lab Overview
 
-## Vulnerability Explanation
+This lab demonstrates UNION-based SQL injection.
 
-The application failed to properly validate user input before processing it inside backend SQL queries.
+A `UNION` query can combine the results of the original SQL query with the results of an attacker-controlled query.
 
-Because the database accepted additional SQL syntax from user input, it became possible to combine malicious queries with the original query using the UNION operator.
+When the application directly incorporates untrusted input into a SQL statement, an attacker may be able to append a second query and retrieve data that the application was not intended to expose.
 
----
+## Vulnerability
 
-## Payload Used
+The application incorporates user-controlled input into a SQL query without sufficient parameterization.
 
-```sql
-' UNION SELECT NULL,NULL--
+This allows additional SQL syntax to be introduced into the original query.
+
+The general attack flow is:
+
+```text
+Identify injection point
+        ↓
+Determine number of columns
+        ↓
+Identify a suitable output column
+        ↓
+Construct UNION query
+        ↓
+Retrieve unauthorized database information
 ```
 
----
+## Exploitation Steps
 
-## Attack Process
+### 1. Identify the injection point
 
-1. Opened the vulnerable product/category page.
-2. Tested input fields for SQL injection behavior.
-3. Determined the correct number of columns using UNION SELECT.
-4. Injected the UNION payload into the vulnerable parameter.
-5. Observed successful query manipulation and retrieved additional database output.
+Intercept the relevant request using Burp Suite and identify a parameter that is incorporated into the backend SQL query.
 
----
+### 2. Determine the number of columns
 
-## Why The Payload Worked
+Test different `UNION SELECT` column counts until the injected query is compatible with the original query.
 
-The UNION operator combines results from multiple SQL queries.
+The number of columns in the injected query must match the number returned by the original query.
 
-Because the application did not sanitize user-controlled input, the payload successfully appended a second query to the original database query.
+### 3. Identify columns that accept text
 
-This allowed unauthorized data retrieval from the backend database.
+After determining the correct column count, test which returned columns can display string data.
 
----
+This identifies the application-controlled output location that can be used to display retrieved information.
 
-## Security Impact
+### 4. Retrieve database information
 
-A successful UNION-based SQL injection vulnerability can lead to:
+Use the identified output column with a `UNION SELECT` query to retrieve information from another table or database object.
 
-* Sensitive database disclosure
-* Credential leakage
-* User data exposure
-* Database enumeration
-* Unauthorized information access
+The application then displays data that was not part of the original intended query.
 
----
+### 5. Complete the lab objective
+
+Use the retrieved information to satisfy the lab's specific objective.
+
+## Root Cause
+
+The application directly incorporates untrusted input into a SQL query instead of using parameterized queries or prepared statements.
+
+Because the database accepts additional SQL syntax, the attacker can modify the original query and append a second result set.
+
+## Impact
+
+Successful UNION-based SQL injection may allow an attacker to:
+
+- Retrieve unauthorized database records
+- Expose credentials and secrets
+- Enumerate database structures
+- Access sensitive application data
+- Modify or delete data when database privileges permit
+- Potentially compromise the wider application
 
 ## Mitigation
 
-Recommended protections include:
+- Use parameterized queries or prepared statements.
+- Never concatenate untrusted input into SQL statements.
+- Apply strict input validation where appropriate.
+- Use least-privilege database accounts.
+- Avoid exposing detailed database errors.
+- Monitor requests containing suspicious SQL syntax.
 
-* Prepared statements
-* Parameterized queries
-* Input validation
-* Least-privilege database permissions
-* Secure error handling
+## Tools Used
+
+- Burp Suite Community Edition
+- Burp Repeater
+- Web Security Academy
+
+## Skills Practiced
+
+- UNION-based SQL injection
+- SQL query manipulation
+- Column-count discovery
+- Output-column identification
+- Database information retrieval
+- HTTP request analysis
+- Burp Repeater
+
+## Key Takeaways
+
+- UNION attacks can combine an application's original query with an attacker-controlled query.
+- The injected query must have a compatible column structure.
+- Identifying which columns accept textual data is an important part of UNION SQLi testing.
+- UNION-based SQLi can expose data from tables that the application did not intend to expose.
+- Parameterized queries are the primary defense against SQL injection.
 
 ---
 
-## What I Learned
-
-This lab improved my understanding of UNION-based SQL injection techniques, column enumeration, and how attackers retrieve hidden backend database information through insecure query handling.
+**Status:** ✅ Solved

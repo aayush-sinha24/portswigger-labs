@@ -1,24 +1,24 @@
-# Blind SQL Injection with Out-of-Band Data Exfiltration
+# Blind SQL Injection with Out-of-Band Interaction
 
 ## Objective
 
-Exploit a blind SQL injection vulnerability to extract sensitive database information through an out-of-band (OOB) interaction.
+Confirm and exploit a blind SQL injection vulnerability by causing the database to make an observable out-of-band interaction.
 
 ## Lab Overview
 
-This lab builds on out-of-band SQL injection by moving beyond vulnerability confirmation.
+This lab demonstrates out-of-band (OOB) blind SQL injection.
 
-Instead of only detecting that the database makes an external request, the injected SQL is used to include sensitive database information in the outbound interaction.
+In a blind SQL injection scenario, the application's normal HTTP response may not reveal useful database information. An OOB channel provides an independent way to determine whether attacker-controlled SQL was successfully executed.
 
-This creates a second communication channel through which data can be exfiltrated when the application's normal HTTP response does not reveal the query result.
+Instead of relying on the application's response, the database is induced to interact with an external, attacker-controlled service.
 
 ## Vulnerability
 
 The application incorporates user-controlled input into a SQL query without sufficient parameterization.
 
-The database can also initiate outbound network interactions.
+The database also has the ability to make outbound network requests.
 
-By combining these two weaknesses, an attacker can construct a query that causes sensitive database data to be included in a request to an attacker-controlled external server.
+This combination allows SQL execution to be detected through an external interaction.
 
 The attack flow is:
 
@@ -29,116 +29,95 @@ Vulnerable Application
     ↓
 Injected SQL
     ↓
-Database retrieves sensitive data
+Database
     ↓
-Database generates OOB request
+Outbound DNS/HTTP interaction
     ↓
 Attacker-controlled server
-    ↓
-Sensitive data observed
 ```
 
 ## Exploitation Steps
 
-### 1. Identify the SQL injection point
+### 1. Identify the injection point
 
 Intercept the relevant request in Burp Suite and identify the parameter or cookie that is incorporated into the SQL query.
 
-### 2. Confirm blind SQL injection
+### 2. Confirm blind behavior
 
-Determine that the application does not directly return useful database output.
+Determine that the application's normal response does not directly expose useful database information.
 
-An out-of-band interaction can be used as an alternative communication channel.
+This makes an alternative detection channel necessary.
 
-### 3. Prepare an OOB interaction endpoint
+### 3. Prepare an OOB endpoint
 
-Generate a unique external interaction domain using an appropriate OOB testing mechanism.
+Generate a unique external interaction endpoint using an appropriate OOB testing mechanism.
 
-The endpoint must be monitored for incoming DNS or HTTP interactions.
+The endpoint should be monitored for incoming DNS or HTTP interactions.
 
-### 4. Construct the SQL injection
+### 4. Trigger an out-of-band interaction
 
-Modify the vulnerable input so that the database:
+Modify the vulnerable input so that successful SQL execution causes the database to perform an outbound network interaction with the controlled endpoint.
 
-1. Executes the injected SQL.
-2. Retrieves the required sensitive value.
-3. Uses that value as part of an outbound interaction with the controlled domain.
+The exact syntax depends on the underlying database system.
 
-The exact SQL syntax depends on the database management system.
+### 5. Monitor the interaction
 
-### 5. Trigger the request
+Monitor the external endpoint for an incoming DNS or HTTP request.
 
-Send the modified request to the vulnerable application.
+Receiving the expected interaction provides evidence that the injected SQL was executed successfully.
 
-If successful, the database performs the outbound interaction.
+### 6. Confirm the vulnerability
 
-### 6. Observe the OOB interaction
-
-Monitor the external interaction service.
-
-The recorded request contains information derived from the database query.
-
-This allows sensitive data to be extracted even though the application's normal response does not reveal it.
-
-### 7. Recover the target value
-
-Analyze the recorded interaction and extract the returned database value.
-
-The recovered information can then be used to complete the lab objective.
+The independent interaction confirms the SQL injection even though the application's normal HTTP response does not reveal the database result.
 
 ## Root Cause
 
-The application is vulnerable because:
+The application directly incorporates untrusted input into a SQL query rather than using parameterized queries or prepared statements.
 
-1. User-controlled input is incorporated into a SQL query.
-2. The database is capable of making outbound network requests.
-3. Outbound connectivity allows query results to be transmitted through an external interaction channel.
+In addition, the database environment permits outbound network communication that is unnecessary for the application's intended function.
 
 ## Impact
 
 Successful exploitation may allow an attacker to:
 
-- Extract sensitive database information
-- Recover credentials
-- Exfiltrate application secrets
 - Confirm blind SQL injection
-- Bypass limitations of the application's normal response channel
-
-The impact can be significant when the database has network access to external systems.
+- Extract sensitive information through OOB techniques
+- Establish an external communication channel
+- Potentially exfiltrate database information
+- Escalate the attack depending on database privileges and network access
 
 ## Mitigation
 
 - Use parameterized queries or prepared statements.
 - Never concatenate untrusted input into SQL statements.
-- Restrict outbound network connectivity from database servers.
+- Restrict unnecessary outbound connectivity from database servers.
 - Apply DNS and HTTP egress controls.
-- Monitor unusual outbound requests from database infrastructure.
+- Monitor unusual outbound connections from database infrastructure.
 - Use least-privilege database accounts.
-- Prevent database servers from directly accessing untrusted external destinations.
 
 ## Tools Used
 
 - Burp Suite
 - Burp Repeater
 - Out-of-band interaction testing
-- Web Security Academy
+- PortSwigger Web Security Academy
 
 ## Skills Practiced
 
 - Blind SQL injection
 - Out-of-band SQL injection
-- OOB data exfiltration
+- OOB interaction detection
 - OAST concepts
-- Database data extraction
 - DNS/HTTP interaction analysis
-- SQL injection exploitation methodology
+- SQL injection verification
+- Network egress analysis
 
 ## Key Takeaways
 
-- Blind SQL injection can be exploited even when application responses reveal no useful data.
-- Out-of-band channels can be used not only to confirm SQL execution but also to exfiltrate data.
-- The database's outbound network access can become an important part of the attack path.
-- Restricting database egress reduces the impact of OOB SQL injection.
+- Blind SQL injection can be confirmed without relying on the application's normal response.
+- Out-of-band interaction provides an independent communication channel.
+- DNS or HTTP callbacks can provide evidence of database-side execution.
+- Database servers should have tightly restricted outbound network access.
 - Parameterized queries remain the primary defense against SQL injection.
 
 ---

@@ -57,15 +57,14 @@ portswigger-labs/
 ```
 
 ---
-## 📈 Repository Statistics
+## 📊 Repository Statistics
 
 | Metric | Value |
-|--------|------:|
-| Categories | 5 |
-| Labs Completed | 5+ |
-| Detailed Write-ups | 5 |
-| Platforms | PortSwigger Web Security Academy |
-
+|--------|-------|
+| Modules Tracked | 5 |
+| Labs Solved | 49 |
+| SQLi Labs Solved | 18 |
+| Repository Status | Actively maintained |
 ## 📚 Categories
 
 | Module | Description |

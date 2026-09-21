@@ -1,77 +1,122 @@
 # SQL Injection Database Enumeration
 
-## Lab Overview
-
-This lab demonstrated how SQL injection vulnerabilities can be used to enumerate backend database structures such as tables and columns.
-
-The application was vulnerable because user input was directly processed inside SQL queries.
-
----
-
 ## Objective
 
-Use SQL injection to identify database tables, columns, and sensitive data stored inside the backend database.
+Exploit a SQL injection vulnerability to enumerate the structure of the backend database, including available tables and columns, and identify sensitive data stored within them.
 
----
+## Lab Overview
 
-## Vulnerability Explanation
+This lab demonstrates how SQL injection can be used beyond authentication bypass or simple data retrieval.
 
-The application trusted user-controlled input without proper sanitization.
+Once a UNION-based SQL injection is identified, database metadata can be queried to discover the structure of the backend database.
 
-Because SQL queries were dynamically generated using unsanitized input, it became possible to extract database metadata and enumerate internal database structures.
+Understanding this structure helps an attacker identify tables, columns, and potentially sensitive information that can be targeted in later stages.
 
----
+## Vulnerability
 
-## Payload Used
+The application incorporates user-controlled input into a SQL query without sufficient parameterization.
 
-```sql
-' UNION SELECT table_name,NULL FROM information_schema.tables--
+Because the injected SQL is executed by the database, metadata tables can be queried to enumerate the database structure.
+
+The general attack flow is:
+
+```text
+SQL Injection
+      ↓
+Identify database type
+      ↓
+Enumerate tables
+      ↓
+Enumerate columns
+      ↓
+Identify sensitive data
+      ↓
+Retrieve targeted information
 ```
 
----
+## Exploitation Steps
 
-## Attack Process
+### 1. Identify the SQL injection point
 
-1. Identified a vulnerable parameter.
-2. Tested SQL injection behavior using basic payloads.
-3. Used UNION SELECT queries to enumerate database tables.
-4. Enumerated column names from discovered tables.
-5. Retrieved sensitive information from backend database structures.
+Intercept the relevant request using Burp Suite and identify the parameter that is incorporated into the backend SQL query.
 
----
+### 2. Determine the database behavior
 
-## Why The Payload Worked
+Test the injection point and analyze the application's response to understand how the underlying SQL query behaves.
 
-The payload queried the database metadata tables available inside the database management system.
+The database type and query structure influence which enumeration techniques can be used.
 
-Because the application directly processed SQL syntax from user input, database structure information became accessible to the attacker.
+### 3. Enumerate database tables
 
----
+Use a UNION-based SQL injection to query the database's metadata and identify available tables.
 
-## Security Impact
+For databases that expose `information_schema`, metadata can be queried to discover table names.
 
-A successful database enumeration attack can lead to:
+### 4. Enumerate columns
 
-* Discovery of sensitive tables
-* Exposure of database structure
-* Credential extraction
-* Sensitive information disclosure
-* Easier exploitation of backend systems
+After identifying the relevant table, enumerate its column names.
 
----
+This reveals the structure of the table and helps identify fields that may contain sensitive information.
+
+### 5. Identify sensitive information
+
+Review the discovered schema and determine which columns may contain credentials, session information, personal data, or other sensitive application information.
+
+### 6. Retrieve the required data
+
+Use the discovered table and column structure to retrieve the information required to complete the lab objective.
+
+## Root Cause
+
+The application directly incorporates untrusted input into a SQL query instead of using parameterized queries or prepared statements.
+
+This allows attackers to execute additional SQL expressions and query database metadata.
+
+## Impact
+
+Successful SQL injection can allow an attacker to:
+
+- Enumerate database tables
+- Discover column names and database structure
+- Identify sensitive records
+- Extract credentials and other secrets
+- Perform further database attacks
+- Potentially compromise the application and its data
 
 ## Mitigation
 
-Recommended protections include:
+- Use parameterized queries or prepared statements.
+- Never concatenate untrusted input into SQL statements.
+- Apply least-privilege database permissions.
+- Prevent application accounts from accessing unnecessary database metadata.
+- Avoid exposing detailed database errors.
+- Monitor suspicious SQL injection patterns in application requests.
 
-* Parameterized queries
-* Prepared statements
-* Restricting database permissions
-* Secure input validation
-* Hiding database error information
+## Tools Used
+
+- Burp Suite Community Edition
+- Burp Repeater
+- Web Security Academy
+
+## Skills Practiced
+
+- SQL injection
+- UNION-based SQL injection
+- Database enumeration
+- Metadata discovery
+- Table enumeration
+- Column enumeration
+- Schema analysis
+- Burp Repeater
+
+## Key Takeaways
+
+- SQL injection can expose much more than individual records.
+- Database metadata can reveal the structure of an application's backend.
+- Table and column enumeration helps identify where sensitive information is stored.
+- Database privileges should be restricted to only what the application actually requires.
+- Parameterized queries are the primary defense against SQL injection.
 
 ---
 
-## What I Learned
-
-This lab helped me understand how attackers enumerate backend databases using SQL injection vulnerabilities and how exposed database metadata increases overall attack surface.
+**Status:** ✅ Solved

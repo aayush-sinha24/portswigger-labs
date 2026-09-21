@@ -62,14 +62,14 @@ portswigger-labs/
 | Metric | Value |
 |--------|-------|
 | Modules Tracked | 5 |
-| Labs Solved | 49 |
+| Labs Solved | 50 |
 | SQLi Labs Solved | 18 |
 | Repository Status | Actively maintained |
 ## 📚 Categories
 
 | Module | Description |
 |---------|-------------|
-| [SQL Injection](./sqli) | Error-based, Union, Blind, Time-based SQLi |
+| [SQL Injection](./sqli) |Union, Blind, Error-based, Time-based, OOB, XML filter bypass
 | [Cross-Site Scripting](./xss) | Reflected, Stored, DOM-based, Context-specific |
 | [Server-Side Request Forgery](./ssrf) | Localhost access, filter bypass, whitelist bypass |
 | [Authentication](./authentication) | Login, MFA, password reset, session attacks |
